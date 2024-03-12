@@ -1,0 +1,108 @@
+REST API for a Structured Product Catalogue Documentation
+Project Overview
+This project implements a RESTful API for managing a structured product catalogue system. The API is developed using Java and integrated with a database, preferably MongoDB, to handle the storage of nested product data. The API allows users to perform CRUD operations on products and search for products based on various filters.
+
+Product Entity Structure
+The Product entity has the following attributes:
+
+id: A unique identifier for the product.
+name: The name of the product.
+description: A text description of the product.
+price: The price of the product.
+categories: An array of categories (strings) the product belongs to.
+attributes: An array of key-value pairs (objects) for additional attributes such as size, color, brand, etc.
+availability: An object containing availability information:
+inStock: A boolean indicating if the product is in stock.
+quantity: An integer representing the available quantity.
+ratings: An array of objects representing user ratings, each with:
+userId: A unique identifier for the user who gave the rating.
+rating: A numerical rating value.
+comment: An optional text comment on the rating.
+Database Integration
+The database schema is designed to handle nested arrays and objects. For MongoDB, nested documents are utilized. For SQL databases, JSON data types or relational tables can be used to represent nested structures.
+
+API Functionality
+The API provides the following functionality:
+
+Endpoints for adding, retrieving, updating, and deleting products.
+An endpoint for searching products with filters for name, category, and attributes.
+API Documentation
+Product Endpoints
+1. Add a Product
+URL: /products
+Method: POST
+Request Body:
+
+{
+  "name": "Product Name",
+  "description": "Product Description",
+  "price": 100,
+  "categories": ["Category1", "Category2"],
+  "attributes": [{"key": "value"}, {"key2": "value2"}],
+  "availability": {
+    "inStock": true,
+    "quantity": 10
+  },
+  "ratings": []
+}
+Response:
+200 OK on success with the created product data.
+400 Bad Request if the request body is invalid.
+2. Get Product by ID
+URL: /products/{id}
+Method: GET
+Response:
+200 OK with the product data.
+404 Not Found if the product with the given ID does not exist.
+3. Update Product
+URL: /products/{id}
+Method: PUT
+Request Body: Same as the "Add a Product" endpoint.
+Response:
+200 OK with the updated product data.
+404 Not Found if the product with the given ID does not exist.
+4. Delete Product
+URL: /products/{id}
+Method: DELETE
+Response:
+204 No Content on successful deletion.
+404 Not Found if the product with the given ID does not exist.
+5. Search Products
+URL: /products/search
+Method: GET
+Query Parameters:
+name: Search by product name.
+category: Search by product category.
+attributes: Search by product attributes (comma-separated key-value pairs).
+Response:
+200 OK with an array of matching products.
+Data Model Diagram
+json
+{
+  "id": "string",
+  "name": "string",
+  "description": "string",
+  "price": "number",
+  "categories": ["string"],
+  "attributes": [{"key": "string"}],
+  "availability": {
+    "inStock": "boolean",
+    "quantity": "integer"
+  },
+  "ratings": [{"userId": "string", "rating": "number", "comment": "string"}]
+}
+Database Setup Instructions
+For MongoDB:
+
+Install MongoDB on your system.
+Start MongoDB server.
+Create a database and collection for the project.
+Ensure your MongoDB URI is correctly configured in the application properties file.
+
+For SQL:
+
+Install a SQL database server (e.g., MySQL, PostgreSQL).
+Design tables to handle the nested structure or use JSON data types.
+Execute SQL scripts to create tables and configure relationships.
+Initial Data Seeding
+You can manually insert some initial data into the database using the provided endpoints or create scripts to automate the seeding process.
